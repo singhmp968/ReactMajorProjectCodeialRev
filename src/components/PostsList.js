@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { PropTypes } from 'prop-types';
 class PostsList extends React.Component {
   render() {
     const { posts } = this.props;
@@ -59,5 +59,9 @@ class PostsList extends React.Component {
     );
   }
 }
-
+PostsList.propTypes = {
+  // here we use propTypes form valadating that the comming props is of required type or not
+  posts: PropTypes.array.isRequired,
+  //posts: PropTypes.string.isRequired, here it will throw warning in c.log as its array not string
+};
 export default PostsList;
