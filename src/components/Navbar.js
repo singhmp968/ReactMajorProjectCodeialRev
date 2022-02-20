@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Navbar extends Component {
   render() {
@@ -6,10 +7,12 @@ class Navbar extends Component {
       <div>
         <nav className="nav">
           <div className="left-div">
-            <img
-              src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
-              alt="logo"
-            />
+            <Link to="/">
+              <img
+                src="https://ninjasfiles.s3.amazonaws.com/0000000000003454.png"
+                alt="logo"
+              />
+            </Link>
           </div>
           <div className="search-container">
             <img
@@ -49,9 +52,15 @@ class Navbar extends Component {
             </div>
             <div className="nav-links">
               <ul>
-                <li>Log in</li>
-                <li>Log out</li>
-                <li>Register</li>
+                <li>
+                  <Link to="/login">lOGIN</Link>
+                </li>
+                <li>
+                  <Link to="/logout">Logout</Link>
+                </li>
+                <li>
+                  <Link to="/signup">signup</Link>
+                </li>
               </ul>
             </div>
           </div>
