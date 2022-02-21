@@ -1,6 +1,8 @@
+// unControlled compoenent are those where data are no managed by react and it is managed by DOM
+
 import React from 'react';
 import { connect } from 'react-redux';
-import { PostsList, Navbar, Home, Page404 } from './';
+import { PostsList, Navbar, Home, Page404, Login } from './';
 import {
   BrowserRouter as Router,
   Link,
@@ -51,9 +53,10 @@ class App extends React.Component {
                 return <Home {...props} posts={posts} />;
               }}
             />
+            <Route path="/login" component={Login} />
             <Route component={Page404} />
           </Switch>
-          {/* <Route path="/login" component={Login} />
+          {/*  />
           <Route path="/signup" component={Signup} /> */}
         </div>
       </Router>
