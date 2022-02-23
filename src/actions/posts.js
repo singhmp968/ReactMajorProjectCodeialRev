@@ -1,8 +1,9 @@
+import { APIUrls } from '../helpers/urls';
 import { UPDATE_POST } from './actionTypes';
 export function fetchPosts() {
   // creating thunk
   return function (dispatch) {
-    const url = `http://codeial.codingninjas.com:8000/api/v2/posts?page=1&limit=5`;
+    const url = APIUrls.fetchPost();
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
