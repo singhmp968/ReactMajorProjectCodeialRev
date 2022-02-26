@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { PostsList, Navbar, Home, Page404, Login } from './';
+import { PostsList, Navbar, Home, Page404, Login, Signup } from './';
 import {
   BrowserRouter as Router,
   Link,
@@ -54,6 +54,7 @@ class App extends React.Component {
               }}
             />
             <Route path="/login" component={Login} />
+            <Route path="/signup" component={Signup} />
             <Route component={Page404} />
           </Switch>
           {/*  />
