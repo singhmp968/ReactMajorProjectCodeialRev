@@ -5,7 +5,7 @@ export function getFormBody(params) {
     let encodedKey = encodeURIComponent(property); // user name=>user%name
     let encodedValue = encodeURIComponent(params[property]); // akash 122= >akash%122
 
-    formBody(encodedKey + '=' + encodedValue);
+    formBody.push(encodedKey + '=' + encodedValue);
   }
   return formBody.join('&'); // eariler [username=akak,password=1233] after join it will be like username=akak&password=1233 and it is exact url encoded parameter
 }
