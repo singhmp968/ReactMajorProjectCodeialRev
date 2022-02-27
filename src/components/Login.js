@@ -241,6 +241,7 @@ class Login extends Component {
 }
 
 function mapStateToProps(state) {
+  // console.log('this state is store dont confyuse===>', state);
   return {
     auth: state.auth,
   };

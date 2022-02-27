@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { logoutUser } from '../actions/auth';
 
 class Navbar extends Component {
+  logOut = () => {
+    localStorage.removeItem('token');
+    this.props.dispatch(logoutUser());
+  };
+
   render() {
+    const { auth } = this.props;
     return (
       <div>
         <nav className="nav">
@@ -42,25 +50,35 @@ class Navbar extends Component {
             </div>
           </div>
           <div className="right-nav">
-            <div className="user">
-              <img
-                src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                alt="user-dp"
-                id="user-dp"
-              />
-              <span>John Doe</span>
-            </div>
+            {auth.isLoggedin && (
+              <div className="user">
+                <img
+                  src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+                  alt="user-dp"
+                  id="user-dp"
+                />
+                <span>{auth.user.name}</span>
+              </div>
+            )}
+
             <div className="nav-links">
               <ul>
-                <li>
-                  <Link to="/login">lOGIN</Link>
-                </li>
-                <li>
-                  <Link to="/logout">Logout</Link>
-                </li>
-                <li>
-                  <Link to="/signup">Register</Link>
-                </li>
+                {!auth.isLoggedin && (
+                  <li>
+                    <Link to="/login">lOGIN</Link>
+                  </li>
+                )}
+                {auth.isLoggedin && (
+                  <li onClick={this.logOut}>
+                    {/* <Link to="/logout">Logout</Link> */}
+                    Log Out
+                  </li>
+                )}
+                {!auth.isLoggedin && (
+                  <li>
+                    <Link to="/signup">Register</Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -70,4 +88,11 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+// export default Navbar;
+function mapStateToProps(state) {
+  // console.log('this state is store dont confyuse===>', state);
+  return {
+    auth: state.auth,
+  };
+}
+export default connect(mapStateToProps)(Navbar);

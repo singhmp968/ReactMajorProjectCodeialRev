@@ -12,6 +12,8 @@ import {
 } from 'react-router-dom';
 import { fetchPosts } from '../actions/posts';
 import * as jwtDecode from 'jwt-decode';
+import { authenticteUser } from '../actions/auth';
+
 // const Home = () => <div>Home</div>;
 
 // const Login = () => <div>Logiasdafafadfn</div>;
@@ -27,6 +29,13 @@ class App extends React.Component {
       // usig jwt decode to get the user details out of it
       const user = jwtDecode(token);
       console.log('jwt decode->', user);
+      this.props.dispatch(
+        authenticteUser({
+          email: user.email,
+          _id: user._id,
+          name: user.name,
+        })
+      );
     }
   }
 

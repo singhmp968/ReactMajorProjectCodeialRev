@@ -9,6 +9,8 @@ import {
   SIGNUP_START,
   SIGNUP_SUCCESS,
   SIGNUP_FAILED,
+  AUTHENTICATE_USER,
+  LOG_OUT,
 } from './actionTypes';
 
 //asdasdas
@@ -103,5 +105,15 @@ export function signupSuccess(user) {
   return {
     type: SIGNUP_SUCCESS,
     user,
+  };
+}
+
+// for authenticating the user
+export function authenticteUser(user) {
+  return { type: AUTHENTICATE_USER, user };
+}
+export function logoutUser() {
+  return {
+    type: LOG_OUT,
   };
 }
