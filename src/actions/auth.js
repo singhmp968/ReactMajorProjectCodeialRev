@@ -11,6 +11,7 @@ import {
   SIGNUP_FAILED,
   AUTHENTICATE_USER,
   LOG_OUT,
+  CLEAR_AUTH_STATE,
 } from './actionTypes';
 
 //asdasdas
@@ -115,5 +116,10 @@ export function authenticteUser(user) {
 export function logoutUser() {
   return {
     type: LOG_OUT,
+  };
+}
+export function clearAuthState() {
+  return {
+    type: CLEAR_AUTH_STATE,
   };
 }
