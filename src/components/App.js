@@ -13,11 +13,24 @@ import {
 import { fetchPosts } from '../actions/posts';
 import * as jwtDecode from 'jwt-decode';
 import { authenticteUser } from '../actions/auth';
+import { Redirect } from 'react-router-dom';
 
 // const Home = () => <div>Home</div>;
 
 // const Login = () => <div>Logiasdafafadfn</div>;
 // const Signup = () => <div>Signup</div>;
+const Setting = () => <div>settings</div>;
+const PrivateRoute = (privateRoutesProps) => {
+  const { isLoggedin, path, component: Component } = privateRoutesProps;
+  return (
+    <Route
+      path={path}
+      render={(props) => {
+        return isLoggedin ? <Component {...props} /> : <Redirect to="/login" />;
+      }}
+    />
+  );
+};
 class App extends React.Component {
   componentDidMount() {
     // this.props.dispatch(fetchPosts());
@@ -42,7 +55,7 @@ class App extends React.Component {
   render() {
     console.log('PROPS=>', this.props);
 
-    const { posts } = this.props;
+    const { posts, auth } = this.props;
 
     return (
       <Router>
@@ -72,6 +85,11 @@ class App extends React.Component {
             />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
+            <PrivateRoute
+              path="/setting"
+              component={Setting} // passing the route in the privateRoute componenet
+              isLoggedin={auth.isLoggedin}
+            />
             <Route component={Page404} />
           </Switch>
           {/*  />
@@ -84,6 +102,7 @@ class App extends React.Component {
 function mapStateToProps(state) {
   return {
     posts: state.posts,
+    auth: state.auth,
   };
 }
 export default connect(mapStateToProps)(App);
