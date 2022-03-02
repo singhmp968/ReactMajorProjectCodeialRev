@@ -26,7 +26,20 @@ const PrivateRoute = (privateRoutesProps) => {
     <Route
       path={path}
       render={(props) => {
-        return isLoggedin ? <Component {...props} /> : <Redirect to="/login" />;
+        // here we have seen that bu using this method we can redirect to / when ever we are  in any page like we are in setting then on refresh it is redirecting us to / page
+        // return isLoggedin ? <Component {...props} /> : <Redirect to="/login" />;
+        return isLoggedin ? (
+          <Component {...props} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: {
+                from: props.location, // it will be someting like this {pathname:'/settings}
+              },
+            }}
+          />
+        );
       }}
     />
   );
