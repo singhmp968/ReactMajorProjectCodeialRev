@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { PostsList, Navbar, Home, Page404, Login, Signup } from './';
+import { PostsList, Navbar, Home, Page404, Login, Signup, Settings } from './';
 import {
   BrowserRouter as Router,
   Link,
@@ -19,7 +19,7 @@ import { Redirect } from 'react-router-dom';
 
 // const Login = () => <div>Logiasdafafadfn</div>;
 // const Signup = () => <div>Signup</div>;
-const Setting = () => <div>settings</div>;
+// const Setting = () => <div>settings</div>;
 const PrivateRoute = (privateRoutesProps) => {
   const { isLoggedin, path, component: Component } = privateRoutesProps;
   return (
@@ -87,7 +87,7 @@ class App extends React.Component {
             <Route path="/signup" component={Signup} />
             <PrivateRoute
               path="/setting"
-              component={Setting} // passing the route in the privateRoute componenet
+              component={Settings} // passing the route in the privateRoute componenet
               isLoggedin={auth.isLoggedin}
             />
             <Route component={Page404} />
