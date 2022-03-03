@@ -9,3 +9,6 @@ export function getFormBody(params) {
   }
   return formBody.join('&'); // eariler [username=akak,password=1233] after join it will be like username=akak&password=1233 and it is exact url encoded parameter
 }
+export function getAuthTokenFromLocalStorage() {
+  return localStorage.getItem('token');
+}
