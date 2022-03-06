@@ -80,7 +80,7 @@ class App extends React.Component {
     console.log('PROPS=>', this.props);
 
     const { posts, auth, friends } = this.props;
-    console.log('friends==>', friends);
+    console.log('friends==>', this.props);
     return (
       <Router>
         <div>
@@ -139,6 +139,7 @@ function mapStateToProps(state) {
   return {
     posts: state.posts,
     auth: state.auth,
+    friends: state.friends,
   };
 }
 export default connect(mapStateToProps)(App);
