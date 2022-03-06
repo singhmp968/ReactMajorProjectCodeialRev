@@ -23,6 +23,7 @@ import { fetchPosts } from '../actions/posts';
 import * as jwtDecode from 'jwt-decode';
 import { authenticteUser } from '../actions/auth';
 import { Redirect } from 'react-router-dom';
+import { fetchUserFriends } from '../actions/friends';
 
 // const Home = () => <div>Home</div>;
 
@@ -71,14 +72,15 @@ class App extends React.Component {
           name: user.name,
         })
       );
+      this.props.dispatch(fetchUserFriends(user._id));
     }
   }
 
   render() {
     console.log('PROPS=>', this.props);
 
-    const { posts, auth } = this.props;
-
+    const { posts, auth, friends } = this.props;
+    console.log('friends==>', friends);
     return (
       <Router>
         <div>
@@ -102,7 +104,14 @@ class App extends React.Component {
               exact
               path="/"
               render={(props) => {
-                return <Home {...props} posts={posts} />;
+                return (
+                  <Home
+                    {...props}
+                    posts={posts}
+                    friends={friends}
+                    isLoggedin={auth.isLoggedin}
+                  />
+                );
               }}
             />
             <Route path="/login" component={Login} />
