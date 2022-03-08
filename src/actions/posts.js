@@ -1,6 +1,6 @@
 import { APIUrls } from '../helpers/urls';
 import { getAuthTokenFromLocalStorage, getFormBody } from '../helpers/utils';
-import { ADD_POST, UPDATE_POST } from './actionTypes';
+import { ADD_COMMENT, ADD_POST, UPDATE_POST } from './actionTypes';
 export function fetchPosts() {
   // creating thunk
   return function (dispatch) {
@@ -47,5 +47,37 @@ export function createPost(content) {
           return;
         }
       });
+  };
+}
+
+// creating action for comments
+export function createComments(content, postId) {
+  return (dispatch) => {
+    const url = APIUrls.createComment();
+    console.log('adasdasd-->');
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+      body: getFormBody({ content, post_id: postId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('comments data is ', data);
+        if (data.success) {
+          dispatch(addComment(data.data.comment, postId));
+          return;
+        }
+      });
+  };
+}
+// comment adding
+export function addComment(comment, postId) {
+  return {
+    type: ADD_COMMENT,
+    comment,
+    postId,
   };
 }
