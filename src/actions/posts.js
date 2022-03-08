@@ -1,6 +1,12 @@
+import { func } from 'prop-types';
 import { APIUrls } from '../helpers/urls';
 import { getAuthTokenFromLocalStorage, getFormBody } from '../helpers/utils';
-import { ADD_COMMENT, ADD_POST, UPDATE_POST } from './actionTypes';
+import {
+  ADD_COMMENT,
+  ADD_POST,
+  UPDATE_POST,
+  UPDATE_POST_LIKE,
+} from './actionTypes';
 export function fetchPosts() {
   // creating thunk
   return function (dispatch) {
@@ -79,5 +85,34 @@ export function addComment(comment, postId) {
     type: ADD_COMMENT,
     comment,
     postId,
+  };
+}
+// like to post
+export function addLike(id, likeType, userId) {
+  // id of post and commet and type of like post or comment and who make this like userId
+  return (dispatch) => {
+    const url = APIUrls.toggleLike(id, likeType);
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('LIKE DATA', data);
+        if (data.success) {
+          dispatch(addLikeTOStore(id, userId));
+          return;
+        }
+      });
+  };
+}
+export function addLikeTOStore(postId, userID) {
+  return {
+    type: UPDATE_POST_LIKE,
+    postId,
+    userID,
   };
 }

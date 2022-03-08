@@ -1,4 +1,9 @@
-import { ADD_COMMENT, ADD_POST, UPDATE_POST } from '../actions/actionTypes'; // this is responsible to estbalihing connection between action and reducers
+import {
+  ADD_COMMENT,
+  ADD_POST,
+  UPDATE_POST,
+  UPDATE_POST_LIKE,
+} from '../actions/actionTypes'; // this is responsible to estbalihing connection between action and reducers
 
 export default function posts(state = [], action) {
   switch (action.type) {
@@ -18,6 +23,17 @@ export default function posts(state = [], action) {
         return post;
       });
       return newPosts;
+    case UPDATE_POST_LIKE:
+      const updatedPost = state.map((post) => {
+        if (post._id === action.postId) {
+          return {
+            ...post,
+            likes: [...post.likes, action.userId],
+          };
+        }
+        return post;
+      });
+      return updatedPost;
     default:
       return state;
   }

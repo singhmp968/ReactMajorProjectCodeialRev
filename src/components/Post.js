@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { createComments } from '../actions/posts';
+import { addLike, createComments } from '../actions/posts';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Comment from './Comment';
@@ -31,9 +31,14 @@ class Post extends Component {
       });
     }
   };
+  handlePostLike = () => {
+    const { post, user } = this.props;
+    this.props.dispatch(addLike(post._id, 'Post', user._id));
+  };
   render() {
-    const { post } = this.props;
+    const { post, user } = this.props;
     const { comment } = this.state;
+    const isPostLikedByUser = post.likes.includes(user._id);
     console.log('props is', post);
     return (
       <div className="posts-list">
@@ -54,13 +59,23 @@ class Post extends Component {
             <div className="post-content">{post.content}</div>
 
             <div className="post-actions">
-              <div className="post-like">
-                <img
-                  src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
-                  alt="likes-icon"
-                />
+              <button
+                className="post-like no-btn"
+                onClick={this.handlePostLike}
+              >
+                {isPostLikedByUser ? (
+                  <img
+                    src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
+                    alt="likes-icon"
+                  />
+                ) : (
+                  <img
+                    src="https://image.flaticon.com/icons/svg/1077/1077035.svg"
+                    alt="likes-post"
+                  />
+                )}
                 <span>{post.likes.length}</span>
-              </div>
+              </button>
 
               <div className="post-comments-icon">
                 <img
@@ -101,5 +116,9 @@ class Post extends Component {
 Post.propTypes = {
   post: PropTypes.object.isRequired,
 };
-
-export default connect()(Post);
+function mapStateToProps({ auth }) {
+  return {
+    user: auth.user,
+  };
+}
+export default connect(mapStateToProps)(Post);
