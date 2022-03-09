@@ -6,7 +6,7 @@ export function searchUsers(searchText) {
     const url = APIUrls.userSearch(searchText);
 
     fetch(url, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: `Bearer ${getAuthTokenFromLocalStorage()}`,

@@ -2,15 +2,19 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { logoutUser } from '../actions/auth';
+import { searchUsers } from '../actions/search';
 
 class Navbar extends Component {
   logOut = () => {
     localStorage.removeItem('token');
     this.props.dispatch(logoutUser());
   };
-
+  handleSearch = (e) => {
+    const searchText = e.target.value;
+    this.props.dispatch(searchUsers(searchText));
+  };
   render() {
-    const { auth } = this.props;
+    const { auth, results } = this.props;
     return (
       <div>
         <nav className="nav">
@@ -28,26 +32,24 @@ class Navbar extends Component {
               src="https://image.flaticon.com/icons/svg/483/483356.svg"
               alt="search-icon"
             />
-            <input placeholder="Search" />
-
-            <div className="search-results">
-              <ul>
-                <li className="search-results-row">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-                <li className="search-results-row">
-                  <img
-                    src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
-                    alt="user-dp"
-                  />
-                  <span>John Doe</span>
-                </li>
-              </ul>
-            </div>
+            <input placeholder="Search" onChange={this.handleSearch} />
+            {results.length > 0 && (
+              <div className="search-results">
+                <ul>
+                  {results.map((user) => (
+                    <Link to={`/user/${user._id}`}>
+                      <li className="search-results-row" key={user._id}>
+                        <img
+                          src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+                          alt="user-dp"
+                        />
+                        <span>{user.name}</span>
+                      </li>
+                    </Link>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           <div className="right-nav">
             {auth.isLoggedin && (
@@ -95,6 +97,7 @@ function mapStateToProps(state) {
   // console.log('this state is store dont confyuse===>', state);
   return {
     auth: state.auth,
+    results: state.search.results,
   };
 }
 export default connect(mapStateToProps)(Navbar);
